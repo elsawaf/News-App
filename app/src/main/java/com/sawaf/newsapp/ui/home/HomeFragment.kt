@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -38,10 +39,20 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
 
-        binding.openDetails.setOnClickListener { // action
-            val navController = findNavController()
-            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
+        // Event error example
+/*
+        homeViewModel.errorMsg.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.also {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+        */
 
+        binding.openDetails.setOnClickListener { // action
+//            val navController = findNavController()
+//            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
+
+            homeViewModel.loadData()
 //            Log.d("sawafapp", "onClick: Hellllo")
             Timber.d("onClick: Hellllo")
         }
