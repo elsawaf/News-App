@@ -20,8 +20,8 @@ class RetrofitExecutor @Inject constructor(@ApplicationContext private val conte
         return if (NetworkHelper().isConnected(context)) {
             try {
                 val data = safeApiResult(call)
-                Timber.i("${data.code}")
-                return when (data.code) {
+                Timber.i(data.status)
+                return when (data.status) {
                     "ok" -> {
                         Result.Success(data.data)
                     }

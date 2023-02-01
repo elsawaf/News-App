@@ -34,8 +34,9 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             val data = newsRepoInterface.getTopHeadlines("eg")
+//            Timber.i("$data")
             if (data is Result.Success) {
-                Timber.i("${data.data[0].title}")
+                Timber.i(data.data[1].title)
             }
         }
 
