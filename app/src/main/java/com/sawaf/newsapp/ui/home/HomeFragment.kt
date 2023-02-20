@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.sawaf.newsapp.R
+import com.sawaf.newsapp.core.utils.*
 import com.sawaf.newsapp.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -43,6 +44,21 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
 
+        observeEventOnce(viewModel.isLoading) {
+            binding.apply {
+                if (it) {
+                    loadingProgress.toVisible()
+                    textView.toGone()
+                } else {
+                    loadingProgress.toGone()
+                    textView.toVisible()
+                }
+            }
+        }
+
+        observeEventOnce(viewModel.errorMsg) {
+            it?.also { toast(it) }
+        }
         // Event error example
 /*
         homeViewModel.errorMsg.observe(viewLifecycleOwner) { event ->

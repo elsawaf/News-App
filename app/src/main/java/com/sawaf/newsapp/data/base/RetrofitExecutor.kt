@@ -46,7 +46,7 @@ class RetrofitExecutor @Inject constructor(@ApplicationContext private val conte
         val response = call()
         return when (response.isSuccessful) {
             false -> throw Exception("Something went wrong")
-            else -> response.body()!!
+            else -> response.body() ?: throw Exception("Null response")
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sawaf.newsapp.Event
 import com.sawaf.newsapp.core.Result
+import com.sawaf.newsapp.core.utils.updateValue
 import com.sawaf.newsapp.data.NewsRepoInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -24,7 +25,8 @@ class HomeViewModel @Inject constructor(
     val text: LiveData<String> = _text
 
     // event
-    val errorMsg = MutableLiveData<Event<String>>()
+    val errorMsg = MutableLiveData<Event<String?>>()
+    val isLoading = MutableLiveData(Event(false))
 
     init {
         loadData()
@@ -33,11 +35,23 @@ class HomeViewModel @Inject constructor(
     fun loadData() {
 
         viewModelScope.launch {
+            isLoading.updateValue(true)
+            delay(300)
             val data = newsRepoInterface.getTopHeadlines("eg")
 //            Timber.i("$data")
             if (data is Result.Success) {
                 Timber.i(data.data[1].title)
             }
+            when (data) {
+                is Result.Success -> {
+                    _text.value = data.data[0].title
+                }
+                is Result.Error -> {
+                    errorMsg.updateValue(data.exception.message)
+                }
+                Result.Loading -> TODO()
+            }
+            isLoading.updateValue(false)
         }
 
 
