@@ -8,6 +8,7 @@ import com.sawaf.newsapp.Event
 import com.sawaf.newsapp.core.Result
 import com.sawaf.newsapp.core.utils.updateValue
 import com.sawaf.newsapp.data.NewsRepoInterface
+import com.sawaf.newsapp.data.models.Article
 import com.sawaf.newsapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -20,10 +21,8 @@ class HomeViewModel @Inject constructor(
     private val newsRepoInterface: NewsRepoInterface
 ) : BaseViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    private val _articleList = MutableLiveData<List<Article>>()
+    val articleList: LiveData<List<Article>> = _articleList
 
     init {
         loadData()
@@ -34,7 +33,7 @@ class HomeViewModel @Inject constructor(
             handleResult {
                 newsRepoInterface.getTopHeadlines("eg")
             }?.also {
-                _text.value = it[0].title
+                _articleList.value = it
             }
         }
     }

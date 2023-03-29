@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sawaf.newsapp.R
 import com.sawaf.newsapp.core.utils.*
 import com.sawaf.newsapp.databinding.FragmentHomeBinding
@@ -39,19 +40,27 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        viewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val adapter = HeadlinesAdapter() { item, _ ->
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
         }
+        binding.headlineRv.layoutManager = LinearLayoutManager(context)
+        binding.headlineRv.adapter = adapter
+
+        viewModel.articleList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
+
 
         observeEventOnce(viewModel.isLoading) {
             binding.apply {
                 if (it) {
                     loadingProgress.toVisible()
-                    textView.toGone()
+                    headlineRv.toGone()
                 } else {
                     loadingProgress.toGone()
-                    textView.toVisible()
+                    headlineRv.toVisible()
                 }
             }
         }
@@ -67,16 +76,6 @@ class HomeFragment : Fragment() {
             }
         }
         */
-
-        binding.openDetails.setOnClickListener { // action
-//            val navController = findNavController()
-//            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
-
-            viewModel.loadData()
-//            Log.d("sawafapp", "onClick: Hellllo")
-            Timber.d("onClick: Hellllo")
-        }
-//        Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_detailsFragment)
 
         return root
     }
