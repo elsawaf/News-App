@@ -23,7 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.google.android.material.snackbar.Snackbar
-import com.sawaf.newsapp.Event
+import com.sawaf.newsapp.core.Event
 
 fun View.showKeyboard() {
     (this.context.getSystemService(Service.INPUT_METHOD_SERVICE) as? InputMethodManager)

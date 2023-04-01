@@ -1,4 +1,4 @@
-package com.sawaf.newsapp
+package com.sawaf.newsapp.core
 
 import androidx.lifecycle.Observer
 

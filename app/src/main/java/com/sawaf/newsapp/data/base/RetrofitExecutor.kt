@@ -3,7 +3,7 @@ package com.sawaf.newsapp.data.base
 import android.content.Context
 import com.sawaf.newsapp.R
 import com.sawaf.newsapp.core.utils.NetworkHelper
-import com.sawaf.newsapp.core.Result
+import com.sawaf.newsapp.domain.common.Result
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Response
 import timber.log.Timber

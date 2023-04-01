@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sawaf.newsapp.Event
-import com.sawaf.newsapp.core.Result
+import com.sawaf.newsapp.core.Event
 import com.sawaf.newsapp.core.utils.updateValue
-import com.sawaf.newsapp.data.NewsRepoInterface
+import com.sawaf.newsapp.domain.common.Result
+import com.sawaf.newsapp.domain.usecases.GetArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val newsRepoInterface: NewsRepoInterface
+    private val getArticlesUseCase: GetArticlesUseCase
 ) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             isLoading.updateValue(true)
             delay(300)
-            val data = newsRepoInterface.getTopHeadlines("eg")
+            val data = getArticlesUseCase("eg")
 //            Timber.i("$data")
             if (data is Result.Success) {
                 Timber.i(data.data[1].title)
@@ -54,11 +54,5 @@ class HomeViewModel @Inject constructor(
             isLoading.updateValue(false)
         }
 
-
-        // Event error example
-        /*viewModelScope.launch {
-            delay(1000)
-            errorMsg.value = Event("No data Error !")
-        }*/
     }
 }

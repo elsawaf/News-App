@@ -1,4 +1,4 @@
-package com.sawaf.newsapp.core
+package com.sawaf.newsapp.domain.common
 
 /**
  * A generic class that holds a value with its loading status.
