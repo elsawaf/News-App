@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.sawaf.newsapp.R
 import com.sawaf.newsapp.core.utils.observeEventOnce
 import com.sawaf.newsapp.core.utils.toGone
 import com.sawaf.newsapp.core.utils.toVisible
@@ -33,32 +35,33 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        viewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val adapter = ArticlesAdapter() { item, _ ->
+            val navController = findNavController()
+            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
+        }
+        binding.articleRv.apply {
+            layoutManager = LinearLayoutManager(context)
+            this.adapter = adapter
+        }
+
+        viewModel.articleList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
 
         observeEventOnce(viewModel.isLoading) {
             binding.apply {
                 if (it) {
                     loadingProgress.toVisible()
-                    textView.toGone()
+                    articleRv.toGone()
                 } else {
                     loadingProgress.toGone()
-                    textView.toVisible()
+                    articleRv.toVisible()
                 }
             }
         }
 
         observeEventOnce(viewModel.errorMsg) {
             it?.also { toast(it) }
-        }
-
-        binding.openDetails.setOnClickListener { // action
-//            val navController = findNavController()
-//            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
-
-            viewModel.loadData()
         }
 
         return root

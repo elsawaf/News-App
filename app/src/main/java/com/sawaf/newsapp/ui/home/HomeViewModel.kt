@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.sawaf.newsapp.core.Event
 import com.sawaf.newsapp.core.utils.updateValue
 import com.sawaf.newsapp.domain.common.Result
+import com.sawaf.newsapp.domain.entities.Article
 import com.sawaf.newsapp.domain.usecases.GetArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -19,10 +20,8 @@ class HomeViewModel @Inject constructor(
     private val getArticlesUseCase: GetArticlesUseCase
 ) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+    private val _articleList = MutableLiveData<List<Article>>()
+    val articleList: LiveData<List<Article>> = _articleList
 
     // event
     val errorMsg = MutableLiveData<Event<String?>>()
@@ -44,7 +43,7 @@ class HomeViewModel @Inject constructor(
             }
             when (data) {
                 is Result.Success -> {
-                    _text.value = data.data[0].title
+                    _articleList.value = data.data ?: emptyList()
                 }
                 is Result.Error -> {
                     errorMsg.updateValue(data.exception.message)
