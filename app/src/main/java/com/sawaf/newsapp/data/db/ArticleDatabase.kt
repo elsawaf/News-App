@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.sawaf.newsapp.data.ARTICLE_DATABASE
 import com.sawaf.newsapp.data.models.ArticleEntity
 
-@Database(entities = [ArticleEntity::class], version = 1)
+@Database(entities = [ArticleEntity::class], version = 1, exportSchema = false)
 abstract class ArticleDatabase: RoomDatabase() {
 
     abstract fun articleDao() : ArticleDao

@@ -2,6 +2,7 @@ package com.sawaf.newsapp.data.repos
 
 import com.sawaf.newsapp.data.api.NewsApi
 import com.sawaf.newsapp.data.base.RetrofitExecutor
+import com.sawaf.newsapp.data.db.ArticleDao
 import com.sawaf.newsapp.data.mappers.ArticleEntityMapper
 import com.sawaf.newsapp.domain.common.Result
 import com.sawaf.newsapp.domain.entities.Article
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi,
+    private val dao: ArticleDao,
     private val mapper: ArticleEntityMapper,
     private val retrofitExecutor: RetrofitExecutor
 ) : NewsRepository {
@@ -31,7 +33,7 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun bookmark(article: Article) {
-        TODO("Not yet implemented")
+        dao.insertArticle(mapper.toArticleEntity(article))
     }
 
     override suspend fun getBookmarks(): Flow<List<Article>> {

@@ -6,9 +6,9 @@ import com.sawaf.newsapp.data.ARTICLE_TABLE
 
 @Entity(tableName = ARTICLE_TABLE)
 data class ArticleEntity(
-    @PrimaryKey(autoGenerate = true)
-    val url: String? = null,
-    val content: String? = null,
+    @PrimaryKey
+    val url: String,
+    val publishedAt: String? = null,
     val title: String? = null,
     val urlToImage: String? = null,
 )

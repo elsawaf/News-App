@@ -9,6 +9,7 @@ import com.sawaf.newsapp.ui.base.BaseAdapter
 import com.sawaf.newsapp.ui.base.BaseDiffCallback
 
 class ArticlesAdapter(
+    private val onStarClicked: (Article) -> Unit,
     itemAction: (Article, View) -> Unit
 ) : BaseAdapter<Article, ArticleListItemBinding>(
     ArticlesDiffCallback(), itemAction
@@ -19,6 +20,9 @@ class ArticlesAdapter(
 
     override fun bind(binding: ArticleListItemBinding, position: Int) {
         binding.articleTitle.text = getItem(position).title
+        binding.bookmarkBtn.setOnClickListener {
+            onStarClicked(getItem(position))
+        }
     }
 
 }

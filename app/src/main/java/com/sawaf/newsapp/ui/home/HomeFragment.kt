@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ArticlesAdapter() { item, _ ->
+        val adapter = ArticlesAdapter(viewModel::bookmarkArticle) { item, _ ->
             val navController = findNavController()
             navController.navigate(R.id.action_homeFragment_to_detailsFragment)
         }

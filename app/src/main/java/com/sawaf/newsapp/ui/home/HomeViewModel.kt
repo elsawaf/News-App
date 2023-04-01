@@ -8,6 +8,7 @@ import com.sawaf.newsapp.core.Event
 import com.sawaf.newsapp.core.utils.updateValue
 import com.sawaf.newsapp.domain.common.Result
 import com.sawaf.newsapp.domain.entities.Article
+import com.sawaf.newsapp.domain.usecases.BookmarkArticleUseCase
 import com.sawaf.newsapp.domain.usecases.GetArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getArticlesUseCase: GetArticlesUseCase
+    private val getArticlesUseCase: GetArticlesUseCase,
+    private val bookmarkArticleUseCase: BookmarkArticleUseCase
 ) : ViewModel() {
 
     private val _articleList = MutableLiveData<List<Article>>()
@@ -31,8 +33,7 @@ class HomeViewModel @Inject constructor(
         loadData()
     }
 
-    fun loadData() {
-
+    private fun loadData() {
         viewModelScope.launch {
             isLoading.updateValue(true)
             delay(300)
@@ -52,6 +53,11 @@ class HomeViewModel @Inject constructor(
             }
             isLoading.updateValue(false)
         }
+    }
 
+    fun bookmarkArticle(article: Article) {
+        viewModelScope.launch {
+            bookmarkArticleUseCase.invoke(article)
+        }
     }
 }
