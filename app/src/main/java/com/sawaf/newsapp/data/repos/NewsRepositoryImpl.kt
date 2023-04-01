@@ -1,5 +1,6 @@
-package com.sawaf.newsapp.data
+package com.sawaf.newsapp.data.repos
 
+import com.sawaf.newsapp.data.api.NewsApi
 import com.sawaf.newsapp.data.base.RetrofitExecutor
 import com.sawaf.newsapp.data.mappers.ArticleEntityMapper
 import com.sawaf.newsapp.domain.common.Result

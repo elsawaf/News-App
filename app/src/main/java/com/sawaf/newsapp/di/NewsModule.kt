@@ -1,9 +1,9 @@
 package com.sawaf.newsapp.di
 
-import com.sawaf.newsapp.data.NewsApi
-import com.sawaf.newsapp.data.NewsRepositoryImpl
+import com.sawaf.newsapp.data.api.NewsApi
 import com.sawaf.newsapp.data.base.RetrofitExecutor
 import com.sawaf.newsapp.data.mappers.ArticleEntityMapper
+import com.sawaf.newsapp.data.repos.NewsRepositoryImpl
 import com.sawaf.newsapp.domain.repositories.NewsRepository
 import dagger.Module
 import dagger.Provides

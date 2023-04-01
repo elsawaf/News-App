@@ -1,12 +1,12 @@
 package com.sawaf.newsapp.data.mappers
 
-import com.sawaf.newsapp.data.models.ArticleEntity
+import com.sawaf.newsapp.data.models.ArticleResponse
 import com.sawaf.newsapp.domain.entities.Article
 import javax.inject.Inject
 
 class ArticleEntityMapper @Inject constructor() {
-    fun toArticleEntity(article: Article): ArticleEntity {
-        return ArticleEntity(
+    fun toArticleEntity(article: Article): ArticleResponse {
+        return ArticleResponse(
             title = article.title,
             publishedAt = article.publishedAt,
             url = article.url,
@@ -14,16 +14,16 @@ class ArticleEntityMapper @Inject constructor() {
         )
     }
 
-    fun toArticle(articleEntity: ArticleEntity): Article {
+    fun toArticle(articleResponse: ArticleResponse): Article {
         return Article(
-            articleEntity.title ?: "",
-            articleEntity.publishedAt ?: "",
-            articleEntity.url ?: "",
-            articleEntity.urlToImage ?: ""
+            articleResponse.title ?: "",
+            articleResponse.publishedAt ?: "",
+            articleResponse.url ?: "",
+            articleResponse.urlToImage ?: ""
         )
     }
 
-    fun toArticleList(response: List<ArticleEntity>): List<Article> {
+    fun toArticleList(response: List<ArticleResponse>): List<Article> {
         return response.map {
             toArticle(it)
         }
