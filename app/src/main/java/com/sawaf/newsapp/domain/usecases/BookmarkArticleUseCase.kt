@@ -7,5 +7,11 @@ import javax.inject.Inject
 class BookmarkArticleUseCase @Inject constructor(
     private val newsRepository: NewsRepository
 ) {
-    suspend operator fun invoke(article: Article) = newsRepository.bookmark(article)
+    suspend operator fun invoke(article: Article) {
+        if (article.isBookmarked) {
+            newsRepository.remove(article)
+        } else {
+            newsRepository.bookmark(article)
+        }
+    }
 }

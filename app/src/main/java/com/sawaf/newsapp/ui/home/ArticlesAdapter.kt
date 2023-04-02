@@ -19,9 +19,18 @@ class ArticlesAdapter(
     }
 
     override fun bind(binding: ArticleListItemBinding, position: Int) {
-        binding.articleTitle.text = getItem(position).title
-        binding.bookmarkBtn.setOnClickListener {
-            onStarClicked(getItem(position))
+        binding.apply {
+            val item = getItem(position)
+            articleTitle.text = item.title
+            bookmarkBtn.setOnClickListener {
+                onStarClicked(item)
+            }
+            val starIcon = if (item.isBookmarked)
+                android.R.drawable.btn_star_big_on
+            else
+                android.R.drawable.btn_star_big_off
+
+            bookmarkBtn.setBackgroundResource(starIcon)
         }
     }
 

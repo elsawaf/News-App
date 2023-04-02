@@ -37,6 +37,10 @@ class NewsRepositoryImpl @Inject constructor(
         dao.insertArticle(mapper.toArticleEntity(article))
     }
 
+    override suspend fun remove(article: Article) {
+        dao.deleteArticle(mapper.toArticleEntity(article))
+    }
+
     override suspend fun getBookmarks(): Flow<List<Article>> {
         return dao.getAllArticles().map { mapper.toArticleBookmarks(it) }
     }
