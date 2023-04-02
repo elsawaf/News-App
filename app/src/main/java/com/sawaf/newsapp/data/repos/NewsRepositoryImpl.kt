@@ -8,6 +8,7 @@ import com.sawaf.newsapp.domain.common.Result
 import com.sawaf.newsapp.domain.entities.Article
 import com.sawaf.newsapp.domain.repositories.NewsRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class NewsRepositoryImpl @Inject constructor(
@@ -37,6 +38,6 @@ class NewsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getBookmarks(): Flow<List<Article>> {
-        TODO("Not yet implemented")
+        return dao.getAllArticles().map { mapper.toArticleBookmarks(it) }
     }
 }

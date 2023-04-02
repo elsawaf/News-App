@@ -32,8 +32,22 @@ class ArticleEntityMapper @Inject constructor() {
         article.urlToImage
     )
 
+    fun toArticle(articleEntity: ArticleEntity) = Article(
+        articleEntity.title ?: "",
+        articleEntity.publishedAt ?: "",
+        articleEntity.url,
+        articleEntity.urlToImage ?: "",
+        true
+    )
+
     fun toArticleList(response: List<ArticleResponse>): List<Article> {
         return response.map {
+            toArticle(it)
+        }
+    }
+
+    fun toArticleBookmarks(list: List<ArticleEntity>): List<Article> {
+        return list.map {
             toArticle(it)
         }
     }
