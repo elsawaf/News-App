@@ -31,6 +31,10 @@
         android:id="@+id/navigation_details"
         android:name="com.sawaf.newsapp.ui.details.DetailsFragment"
         android:label="@string/title_details"
-        tools:layout="@layout/fragment_details"/>
+        tools:layout="@layout/fragment_details">
+        <argument android:name="article"
+            app:argType="com.sawaf.newsapp.data.models.Article"
+            app:nullable="true"/>
+    </fragment>
 
 </navigation>

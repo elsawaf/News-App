@@ -42,7 +42,8 @@ class HomeFragment : Fragment() {
 
         val adapter = HeadlinesAdapter() { item, _ ->
             val navController = findNavController()
-            navController.navigate(R.id.action_homeFragment_to_detailsFragment)
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(item)
+            navController.navigate(action)
         }
         binding.headlineRv.layoutManager = LinearLayoutManager(context)
         binding.headlineRv.adapter = adapter

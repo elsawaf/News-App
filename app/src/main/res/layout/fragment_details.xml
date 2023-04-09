@@ -6,9 +6,9 @@
     tools:context=".ui.details.DetailsFragment">
 
     <TextView
+        android:id="@+id/article_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="25sp"
-        android:text="Hello Details" />
+        android:textSize="25sp" />
 
 </FrameLayout>

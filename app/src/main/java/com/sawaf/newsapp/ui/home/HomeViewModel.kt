@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
     fun loadData() {
         viewModelScope.launch {
             handleResult {
-                newsRepoInterface.getTopHeadlines("eg")
+                newsRepoInterface.getTopHeadlines("us")
             }?.also {
                 _articleList.value = it
             }
