@@ -7,10 +7,11 @@ import com.sawaf.newsapp.data.models.Article
 import com.sawaf.newsapp.databinding.HeadlinesListItemBinding
 import com.sawaf.newsapp.ui.base.BaseAdapter
 import com.sawaf.newsapp.ui.base.BaseDiffCallback
+import com.sawaf.newsapp.ui.models.ArticleUi
 
 class HeadlinesAdapter(
-    itemAction: (Article, View) -> Unit
-): BaseAdapter<Article, HeadlinesListItemBinding>(
+    itemAction: (ArticleUi, View) -> Unit
+): BaseAdapter<ArticleUi, HeadlinesListItemBinding>(
     HeadlinesDiffCallback(),
     itemAction = itemAction
 ) {
@@ -20,11 +21,12 @@ class HeadlinesAdapter(
 
     override fun bind(binding: HeadlinesListItemBinding, position: Int) {
         binding.headlineTitle.text = getItem(position).title
+        binding.sourceName.text = getItem(position).sourceName
     }
 }
 
-class HeadlinesDiffCallback: BaseDiffCallback<Article>() {
-    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+class HeadlinesDiffCallback: BaseDiffCallback<ArticleUi>() {
+    override fun areItemsTheSame(oldItem: ArticleUi, newItem: ArticleUi): Boolean {
         return oldItem.url == newItem.url
     }
 }

@@ -3,6 +3,7 @@ package com.sawaf.newsapp.data
 import com.sawaf.newsapp.core.Result
 import com.sawaf.newsapp.data.base.RetrofitExecutor
 import com.sawaf.newsapp.data.models.Article
+import com.sawaf.newsapp.ui.models.ArticleUi
 import javax.inject.Inject
 
 class NewsRepoImpl @Inject constructor(
