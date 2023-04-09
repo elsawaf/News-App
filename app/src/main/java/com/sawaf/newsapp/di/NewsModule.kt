@@ -4,6 +4,8 @@ import com.sawaf.newsapp.data.NewsApi
 import com.sawaf.newsapp.data.NewsRepoImpl
 import com.sawaf.newsapp.data.NewsRepoInterface
 import com.sawaf.newsapp.data.base.RetrofitExecutor
+import com.sawaf.newsapp.data.db.ArticleDao
+import com.sawaf.newsapp.data.db.ArticleDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +25,16 @@ object NewsModule {
 
     @Provides
 //    @Singleton
-    fun provideNewsRepo(newsApi: NewsApi, retrofitExecutor: RetrofitExecutor): NewsRepoInterface {
-        return NewsRepoImpl(newsApi, retrofitExecutor)
+    fun provideNewsRepo(
+        newsApi: NewsApi,
+        articleDao: ArticleDao,
+        retrofitExecutor: RetrofitExecutor
+    ): NewsRepoInterface {
+        return NewsRepoImpl(newsApi, articleDao, retrofitExecutor)
+    }
+
+    @Provides
+    fun provideDao(database: ArticleDatabase): ArticleDao {
+        return database.articleDao()
     }
 }

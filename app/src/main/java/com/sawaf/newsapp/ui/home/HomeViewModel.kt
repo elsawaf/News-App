@@ -8,6 +8,7 @@ import com.sawaf.newsapp.Event
 import com.sawaf.newsapp.core.Result
 import com.sawaf.newsapp.core.utils.updateValue
 import com.sawaf.newsapp.data.NewsRepoInterface
+import com.sawaf.newsapp.data.mapper.toEntity
 import com.sawaf.newsapp.data.mapper.toUiModel
 import com.sawaf.newsapp.data.models.Article
 import com.sawaf.newsapp.ui.base.BaseViewModel
@@ -37,6 +38,12 @@ class HomeViewModel @Inject constructor(
             }?.also {
                 _articleList.value = it.map { item -> item.toUiModel() }
             }
+        }
+    }
+
+    fun saveArticle(articleUi: ArticleUi) {
+        viewModelScope.launch {
+            newsRepoInterface.saveArticle(articleUi.toEntity())
         }
     }
 }

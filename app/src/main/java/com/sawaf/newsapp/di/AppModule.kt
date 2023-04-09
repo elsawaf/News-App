@@ -1,12 +1,16 @@
 package com.sawaf.newsapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.sawaf.newsapp.BuildConfig
 import com.sawaf.newsapp.data.BASE_URL
+import com.sawaf.newsapp.data.db.ArticleDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,6 +55,16 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): ArticleDatabase {
+        return Room.databaseBuilder(
+            context,
+            ArticleDatabase::class.java,
+            "article_db"
+        ).build()
     }
 
 }

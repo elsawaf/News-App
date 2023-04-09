@@ -19,7 +19,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.sawaf.newsapp.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_detailsFragment"
+            app:destination="@id/navigation_details"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"

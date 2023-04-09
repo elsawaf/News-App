@@ -10,7 +10,8 @@ import com.sawaf.newsapp.ui.base.BaseDiffCallback
 import com.sawaf.newsapp.ui.models.ArticleUi
 
 class HeadlinesAdapter(
-    itemAction: (ArticleUi, View) -> Unit
+    itemAction: (ArticleUi, View) -> Unit,
+    val saveAction: (ArticleUi) -> Unit
 ): BaseAdapter<ArticleUi, HeadlinesListItemBinding>(
     HeadlinesDiffCallback(),
     itemAction = itemAction
@@ -20,8 +21,12 @@ class HeadlinesAdapter(
     }
 
     override fun bind(binding: HeadlinesListItemBinding, position: Int) {
-        binding.headlineTitle.text = getItem(position).title
-        binding.sourceName.text = getItem(position).sourceName
+        val item = getItem(position)
+        binding.headlineTitle.text = item.title
+        binding.sourceName.text = item.sourceName
+        binding.saveBtn.setOnClickListener {
+            saveAction.invoke(item)
+        }
     }
 }
 

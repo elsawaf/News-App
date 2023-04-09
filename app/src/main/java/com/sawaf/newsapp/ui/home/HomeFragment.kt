@@ -40,11 +40,13 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = HeadlinesAdapter() { item, _ ->
+        val adapter = HeadlinesAdapter({ item, _ ->
             val navController = findNavController()
             val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(item)
             navController.navigate(action)
-        }
+        },
+            viewModel::saveArticle
+        )
         binding.headlineRv.layoutManager = LinearLayoutManager(context)
         binding.headlineRv.adapter = adapter
 
