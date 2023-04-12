@@ -11,7 +11,8 @@ fun Article.toUiModel() : ArticleUi {
         description = description ?: "",
         url = url,
         urlToImage = urlToImage ?: "",
-        sourceName = source.name
+        sourceName = source.name,
+        isBookmarked = false
     )
 }
 
@@ -28,5 +29,6 @@ fun ArticleEntity.toUiModel() = ArticleUi(
     url,
     urlToImage,
     description,
-    sourceName
+    sourceName,
+    true
 )
