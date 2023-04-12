@@ -32,4 +32,8 @@ class NewsRepoImpl @Inject constructor(
         return articleDao.getAllArticles()
     }
 
+    override fun getAllUrls(): LiveData<List<String>> {
+        return articleDao.getArticlesUrl()
+    }
+
 }

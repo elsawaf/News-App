@@ -15,4 +15,6 @@ interface NewsRepoInterface {
     suspend fun removeArticle(articleEntity: ArticleEntity)
 
     fun getAllArticles(): LiveData<List<ArticleEntity>>
+
+    fun getAllUrls(): LiveData<List<String>>
 }

@@ -18,4 +18,7 @@ interface ArticleDao {
 
     @Query("SELECT * FROM articleentity")
     fun getAllArticles(): LiveData<List<ArticleEntity>>
+
+    @Query("SELECT url FROM articleentity")
+    fun getArticlesUrl(): LiveData<List<String>>
 }

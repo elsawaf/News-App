@@ -9,5 +9,6 @@ data class ArticleUi(
     val url: String,
     val urlToImage: String,
     val description: String,
-    val sourceName: String
+    val sourceName: String,
+    var isBookmarked: Boolean
 ): Parcelable

@@ -1,20 +1,12 @@
 package com.sawaf.newsapp.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.sawaf.newsapp.Event
-import com.sawaf.newsapp.core.Result
-import com.sawaf.newsapp.core.utils.updateValue
+import androidx.lifecycle.*
 import com.sawaf.newsapp.data.NewsRepoInterface
 import com.sawaf.newsapp.data.mapper.toEntity
 import com.sawaf.newsapp.data.mapper.toUiModel
-import com.sawaf.newsapp.data.models.Article
 import com.sawaf.newsapp.ui.base.BaseViewModel
 import com.sawaf.newsapp.ui.models.ArticleUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,26 +16,54 @@ class HomeViewModel @Inject constructor(
     private val newsRepoInterface: NewsRepoInterface
 ) : BaseViewModel() {
 
-    private val _articleList = MutableLiveData<List<ArticleUi>>()
-    val articleList: LiveData<List<ArticleUi>> = _articleList
+    // merge
+    private val _apiList = MutableLiveData<List<ArticleUi>>()
+
+    private val _savedList = newsRepoInterface.getAllUrls()
+
+    val articleList = MediatorLiveData<List<ArticleUi>>()
 
     init {
         loadData()
+
+        articleList.addSource(_apiList) { articles ->
+            mergeArticles(articles, _savedList.value)
+        }
+
+        articleList.addSource(_savedList) { urls ->
+            mergeArticles(_apiList.value, urls)
+        }
+    }
+
+    private fun mergeArticles(articles: List<ArticleUi>?, urls: List<String>?) {
+        Timber.d("mergeArticle = ${urls?.size}")
+        articleList.value = articles?.onEach { item ->
+            if (urls?.find { it == item.url } != null) {
+                item.isBookmarked = true
+                Timber.d("find = ${item.isBookmarked}")
+            } else {
+                item.isBookmarked = false
+            }
+        }
     }
 
     fun loadData() {
         viewModelScope.launch {
             handleResult {
                 newsRepoInterface.getTopHeadlines("us")
-            }?.also {
-                _articleList.value = it.map { item -> item.toUiModel() }
+            }?.also { articles ->
+                _apiList.value = articles.map { item -> item.toUiModel() }
             }
         }
     }
 
     fun saveArticle(articleUi: ArticleUi) {
         viewModelScope.launch {
-            newsRepoInterface.saveArticle(articleUi.toEntity())
+            if (articleUi.isBookmarked) {
+                newsRepoInterface.removeArticle(articleUi.toEntity())
+            } else {
+                newsRepoInterface.saveArticle(articleUi.toEntity())
+            }
         }
     }
 }

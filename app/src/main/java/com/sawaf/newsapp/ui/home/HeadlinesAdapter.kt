@@ -24,6 +24,13 @@ class HeadlinesAdapter(
         val item = getItem(position)
         binding.headlineTitle.text = item.title
         binding.sourceName.text = item.sourceName
+
+        if (item.isBookmarked) {
+            binding.saveBtn.setImageResource(android.R.drawable.btn_star_big_on)
+        } else {
+            binding.saveBtn.setImageResource(android.R.drawable.btn_star_big_off)
+        }
+
         binding.saveBtn.setOnClickListener {
             saveAction.invoke(item)
         }
