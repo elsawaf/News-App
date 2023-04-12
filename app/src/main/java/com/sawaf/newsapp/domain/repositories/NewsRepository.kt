@@ -12,5 +12,5 @@ interface NewsRepository {
 
     suspend fun remove(article: Article)
 
-    suspend fun getBookmarks(): Flow<List<Article>>
+    fun getBookmarks(): Flow<List<Article>>
 }

@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetBookmarksUseCase @Inject constructor(
     private val newsRepository: NewsRepository
 ) {
-    suspend operator fun invoke() = newsRepository.getBookmarks()
+    operator fun invoke() = newsRepository.getBookmarks()
 }
