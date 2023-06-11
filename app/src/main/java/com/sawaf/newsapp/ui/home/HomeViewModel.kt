@@ -38,13 +38,9 @@ class HomeViewModel @Inject constructor(
     private fun mergeArticles(articles: List<ArticleUi>?, urls: List<String>?) {
         Timber.d("mergeArticle = ${urls?.size}")
         articleList.value = articles?.onEach { item ->
-            if (urls?.find { it == item.url } != null) {
-                item.isBookmarked = true
-                Timber.d("find = ${item.isBookmarked}")
-            } else {
-                item.isBookmarked = false
-            }
-        }
+            item.isBookmarked = urls?.find { it == item.url } != null
+            Timber.d("find = ${item.isBookmarked}")
+        }?.toList()
     }
 
     fun loadData() {

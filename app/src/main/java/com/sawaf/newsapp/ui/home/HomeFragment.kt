@@ -40,22 +40,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = HeadlinesAdapter({ item, _ ->
-            val navController = findNavController()
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(item)
-            navController.navigate(action)
-        },
-            viewModel::saveArticle
-        )
-        binding.headlineRv.layoutManager = LinearLayoutManager(context)
-        binding.headlineRv.adapter = adapter
-
-        viewModel.articleList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-
-
-
         observeEventOnce(viewModel.isLoading) {
             binding.apply {
                 if (it) {
@@ -81,6 +65,22 @@ class HomeFragment : Fragment() {
         */
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = HeadlinesAdapter({ item, _ ->
+            val navController = findNavController()
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment(item)
+            navController.navigate(action)
+        },
+            viewModel::saveArticle
+        )
+        binding.headlineRv.layoutManager = LinearLayoutManager(context)
+        binding.headlineRv.adapter = adapter
+
+        viewModel.articleList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
     }
 
     override fun onDestroyView() {
