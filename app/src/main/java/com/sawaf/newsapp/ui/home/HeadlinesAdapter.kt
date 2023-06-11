@@ -41,8 +41,4 @@ class HeadlinesDiffCallback: BaseDiffCallback<ArticleUi>() {
     override fun areItemsTheSame(oldItem: ArticleUi, newItem: ArticleUi): Boolean {
         return oldItem.url == newItem.url
     }
-
-    override fun areContentsTheSame(oldItem: ArticleUi, newItem: ArticleUi): Boolean {
-        return oldItem == newItem
-    }
 }

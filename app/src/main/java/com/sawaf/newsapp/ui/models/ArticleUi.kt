@@ -11,4 +11,8 @@ data class ArticleUi(
     val description: String,
     val sourceName: String,
     var isBookmarked: Boolean
-): Parcelable
+): Parcelable {
+    override fun equals(other: Any?): Boolean {
+        return isBookmarked == (other as ArticleUi).isBookmarked
+    }
+}

@@ -37,10 +37,14 @@ class HomeViewModel @Inject constructor(
 
     private fun mergeArticles(articles: List<ArticleUi>?, urls: List<String>?) {
         Timber.d("mergeArticle = ${urls?.size}")
-        articleList.value = articles?.onEach { item ->
-            item.isBookmarked = urls?.find { it == item.url } != null
-            Timber.d("find = ${item.isBookmarked}")
-        }?.toList()
+        val newArticles = articles?.toMutableList()
+        articleList.value = newArticles?.onEachIndexed { index, item ->
+            urls?.contains(item.url)?.also {
+                if (item.isBookmarked != it) {
+                    newArticles[index] = item.copy(isBookmarked = it)
+                }
+            }
+        }
     }
 
     fun loadData() {
