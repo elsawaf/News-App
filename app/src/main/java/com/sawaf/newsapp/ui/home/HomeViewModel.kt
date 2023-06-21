@@ -4,8 +4,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.sawaf.newsapp.data.NewsRepoInterface
-import com.sawaf.newsapp.data.mapper.toEntity
 import com.sawaf.newsapp.data.mapper.toUiModel
+import com.sawaf.newsapp.domain.SaveArticleUseCase
 import com.sawaf.newsapp.ui.base.BaseViewModel
 import com.sawaf.newsapp.ui.models.ArticleUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val newsRepoInterface: NewsRepoInterface
+    private val newsRepoInterface: NewsRepoInterface,
+    private val saveArticleUseCase: SaveArticleUseCase
 ) : BaseViewModel() {
 
     // merge
@@ -61,11 +62,7 @@ class HomeViewModel @Inject constructor(
 
     fun saveArticle(articleUi: ArticleUi) {
         viewModelScope.launch {
-            if (articleUi.isBookmarked) {
-                newsRepoInterface.removeArticle(articleUi.toEntity())
-            } else {
-                newsRepoInterface.saveArticle(articleUi.toEntity())
-            }
+            saveArticleUseCase(articleUi)
         }
     }
 }
