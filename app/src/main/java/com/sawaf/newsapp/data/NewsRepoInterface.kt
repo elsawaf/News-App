@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import com.sawaf.newsapp.core.Result
 import com.sawaf.newsapp.data.db.ArticleEntity
 import com.sawaf.newsapp.data.models.Article
-import com.sawaf.newsapp.ui.models.ArticleUi
 
 interface NewsRepoInterface {
 
-    suspend fun getTopHeadlines(country: String): Result<List<Article>>
+    suspend fun getTopHeadlines(): Result<List<Article>>
+
+    suspend fun saveCountryPref(code: String)
 
     suspend fun saveArticle(articleEntity: ArticleEntity)
 

@@ -1,5 +1,6 @@
 package com.sawaf.newsapp.di
 
+import com.sawaf.newsapp.core.PreferenceManager
 import com.sawaf.newsapp.data.NewsApi
 import com.sawaf.newsapp.data.NewsRepoImpl
 import com.sawaf.newsapp.data.NewsRepoInterface
@@ -11,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -28,9 +28,10 @@ object NewsModule {
     fun provideNewsRepo(
         newsApi: NewsApi,
         articleDao: ArticleDao,
-        retrofitExecutor: RetrofitExecutor
+        retrofitExecutor: RetrofitExecutor,
+        preferenceManager: PreferenceManager
     ): NewsRepoInterface {
-        return NewsRepoImpl(newsApi, articleDao, retrofitExecutor)
+        return NewsRepoImpl(newsApi, articleDao, retrofitExecutor, preferenceManager)
     }
 
     @Provides

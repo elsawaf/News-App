@@ -1,26 +1,21 @@
 package com.sawaf.newsapp.ui.home
 
-import android.content.Context
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sawaf.newsapp.core.utils.readString
 import com.sawaf.newsapp.data.NewsRepoInterface
 import com.sawaf.newsapp.data.mapper.toEntity
 import com.sawaf.newsapp.data.mapper.toUiModel
 import com.sawaf.newsapp.ui.base.BaseViewModel
 import com.sawaf.newsapp.ui.models.ArticleUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val newsRepoInterface: NewsRepoInterface,
-    @ApplicationContext val context: Context
+    private val newsRepoInterface: NewsRepoInterface
 ) : BaseViewModel() {
 
     // merge
@@ -56,9 +51,8 @@ class HomeViewModel @Inject constructor(
 
     fun loadData() {
         viewModelScope.launch {
-            val countryCode = context.readString("apiKey", "us").first()
             handleResult {
-                newsRepoInterface.getTopHeadlines(countryCode)
+                newsRepoInterface.getTopHeadlines()
             }?.also { articles ->
                 _apiList.value = articles.map { item -> item.toUiModel() }
             }
